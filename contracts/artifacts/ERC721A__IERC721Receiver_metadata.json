@@ -1,0 +1,89 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "operator",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "onERC721Received",
+				"outputs": [
+					{
+						"internalType": "bytes4",
+						"name": "",
+						"type": "bytes4"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "Interface of ERC721 token receiver.",
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/ERC721A.sol": "ERC721A__IERC721Receiver"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/ERC721A.sol": {
+			"keccak256": "0xb266e86b74114b407f873ffed598bb76b89d8854435103e034f35216478fd44f",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://fc92f0d198b846b8b66677102ebcbaee5cad086d467d61fb005383e5608ab154",
+				"dweb:/ipfs/QmaWMiEkpHjJfQpNTGBf468djviT7cEcXzvfCWpg3d5A1M"
+			]
+		},
+		"contracts/IERC721A.sol": {
+			"keccak256": "0xd38bd6c6cc5b5f22b8ca092f98e22e8b6c8460edbf761230e5cf8f7f3440722d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c6ef488d33adc0b5fb27612e1d461f0aff973eb4b270c8b58f7e2544cfe35632",
+				"dweb:/ipfs/QmeyDLmNk1gVAS4Fj4cpiiV8SgXEQJeJwDfLhQdD6oKHhz"
+			]
+		}
+	},
+	"version": 1
+}
