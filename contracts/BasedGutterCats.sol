@@ -16,12 +16,53 @@ contract BasedGutterCats is ERC721A, Ownable {
     uint256 private _mintPrice = 100000000000000;
 
     function mint(uint256 quantity) external payable {
-        // `_mint`'s second argument now takes in a `quantity`, not a `tokenId`.
+        uint256 totalPrice = mintPrice(quantity);
+
+        require(msg.value >= totalPrice, "you can't afford it dude...");
+
+        require(
+            _numberMinted(msg.sender) + quantity <= maxMintPerWallet(),
+            "wooh you can't mint that many!"
+        );
+
         _mint(msg.sender, quantity);
+
+        _refundExtra(totalPrice);
+    }
+
+    function _refundExtra(uint256 price) internal {
+        if (msg.value > price) {
+            payable(msg.sender).transfer(msg.value - price);
+        }
+    }
+
+    function burnKitty(uint256 kittyId) external {
+        require(
+            address(this).balance > _mintPrice,
+            "sorry, kitty hell is closed for now"
+        );
+
+        require(
+            _numberMinted(msg.sender) == _maxMintPerWallet,
+            "you need to save all the kitties you can first"
+        );
+
+        require(
+            _numberBurned(msg.sender) == 0,
+            "you've already sent 1 kitty to kitty hell, that's enough dude..."
+        );
+
+        _burn(kittyId, true);
+
+        payable(msg.sender).transfer(_mintPrice);
+
     }
 
     function freeMintsLeft() public view returns (uint256) {
-        return _numberMinted(msg.sender) >= _maxFreeMintPerWallet ? 0 : _maxFreeMintPerWallet - _numberMinted(msg.sender);
+        return
+            _numberMinted(msg.sender) >= _maxFreeMintPerWallet
+                ? 0
+                : _maxFreeMintPerWallet - _numberMinted(msg.sender);
     }
 
     function mintPrice(uint256 quantity)
@@ -31,8 +72,7 @@ contract BasedGutterCats is ERC721A, Ownable {
         override
         returns (uint256)
     {
-        if (freeMintsLeft() >= quantity)
-            return 0;
+        if (freeMintsLeft() >= quantity) return 0;
 
         return (quantity - freeMintsLeft()) * _mintPrice;
     }
