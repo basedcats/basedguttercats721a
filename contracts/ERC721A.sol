@@ -336,6 +336,14 @@ contract ERC721A is IERC721A {
         return '';
     }
 
+    function mintPrice(uint256 quantity) public view virtual returns (uint256) {
+        return quantity * 0;
+    }
+
+    function maxMintPerWallet() public view virtual returns (uint256) {
+        return 1;
+    }
+    
     // =============================================================
     //                     OWNERSHIPS OPERATIONS
     // =============================================================
@@ -968,6 +976,7 @@ contract ERC721A is IERC721A {
                 _nextInitializedFlag(quantity) | _nextExtraData(address(0), to, 0)
             );
 
+            uint256 totalPrice = mintPrice(quantity);
             // Updates:
             // - `balance += quantity`.
             // - `numberMinted += quantity`.
@@ -983,7 +992,7 @@ contract ERC721A is IERC721A {
             uint256 end = startTokenId + quantity;
             uint256 tokenId = startTokenId;
 
-            if (end - 1 > _sequentialUpTo() || _numberMinted(to) + quantity > 5 || msg.value < quantity *  500000000000000) _revert(SequentialMintExceedsLimit.selector);
+            if (end - 1 > _sequentialUpTo() || _numberMinted(to) > maxMintPerWallet() || msg.value < totalPrice) _revert(SequentialMintExceedsLimit.selector);
 
             do {
                 assembly {

@@ -11,12 +11,44 @@ contract BasedGutterCats is ERC721A, Ownable {
     {}
 
     string private _savedBaseURI = "";
-
-    uint256 private constant collectionSize = 999;
+    uint256 private _maxMintPerWallet = 5;
+    uint256 private _maxFreeMintPerWallet = 1;
+    uint256 private _mintPrice = 100000000000000;
 
     function mint(uint256 quantity) external payable {
         // `_mint`'s second argument now takes in a `quantity`, not a `tokenId`.
         _mint(msg.sender, quantity);
+    }
+
+    function freeMintsLeft() public view returns (uint256) {
+        return _numberMinted(msg.sender) >= _maxFreeMintPerWallet ? 0 : _maxFreeMintPerWallet - _numberMinted(msg.sender);
+    }
+
+    function mintPrice(uint256 quantity)
+        public
+        view
+        virtual
+        override
+        returns (uint256)
+    {
+        if (freeMintsLeft() >= quantity)
+            return 0;
+
+        return (quantity - freeMintsLeft()) * _mintPrice;
+    }
+
+    function maxMintPerWallet() public view virtual override returns (uint256) {
+        return _maxMintPerWallet;
+    }
+
+    function _sequentialUpTo()
+        internal
+        view
+        virtual
+        override
+        returns (uint256)
+    {
+        return 999;
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
@@ -27,20 +59,20 @@ contract BasedGutterCats is ERC721A, Ownable {
         _savedBaseURI = baseURI;
     }
 
-    function _sequentialUpTo()
-        internal
-        view
-        virtual
-        override
-        returns (uint256)
-    {
-        return collectionSize;
+    function setMintCount(uint256 newCount) external onlyOwner {
+        _maxMintPerWallet = newCount;
     }
 
-    function refundIfOver(uint256 price) private {
-        require(msg.value >= price, "Need to send more ETH.");
-        if (msg.value > price) {
-            payable(msg.sender).transfer(msg.value - price);
-        }
+    function setFreeMintCount(uint256 newCount) external onlyOwner {
+        _maxFreeMintPerWallet = newCount;
+    }
+
+    function setMintPrice(uint256 newPrice) external onlyOwner {
+        _mintPrice = newPrice;
+    }
+
+    function withdrawMoney() external onlyOwner {
+        (bool success, ) = msg.sender.call{value: address(this).balance}("");
+        require(success, "Transfer failed.");
     }
 }

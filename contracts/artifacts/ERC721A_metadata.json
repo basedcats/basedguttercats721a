@@ -304,6 +304,38 @@
 			},
 			{
 				"inputs": [],
+				"name": "maxMintPerWallet",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "quantity",
+						"type": "uint256"
+					}
+				],
+				"name": "mintPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "name",
 				"outputs": [
 					{
@@ -675,11 +707,11 @@
 	},
 	"sources": {
 		"contracts/ERC721A.sol": {
-			"keccak256": "0xb266e86b74114b407f873ffed598bb76b89d8854435103e034f35216478fd44f",
+			"keccak256": "0x63fed59b1260dc3aaa00d0d82661cc8012e0ae17bb35bd398a521d31719e01f0",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://fc92f0d198b846b8b66677102ebcbaee5cad086d467d61fb005383e5608ab154",
-				"dweb:/ipfs/QmaWMiEkpHjJfQpNTGBf468djviT7cEcXzvfCWpg3d5A1M"
+				"bzz-raw://150a9701e5f97872cd81f66c25337655e735058cff519bdc4a924ae2174811a8",
+				"dweb:/ipfs/Qmbh3A5f7s31ecuhhauhtvGmdqtUrKtZ2RLVWzKKQZkTjg"
 			]
 		},
 		"contracts/IERC721A.sol": {
