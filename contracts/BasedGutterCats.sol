@@ -10,59 +10,48 @@ contract BasedGutterCats is ERC721A, Ownable {
         Ownable(initialOwner)
     {}
 
+    uint256 private constant _maxMintPerWallet = 5;
+    uint256 private constant _maxFreeMintPerWallet = 1;
+    uint256 private constant _mintPrice = 100000000000000;
+
     string private _savedBaseURI = "";
-    uint256 private _maxMintPerWallet = 5;
-    uint256 private _maxFreeMintPerWallet = 1;
-    uint256 private _mintPrice = 100000000000000;
+    uint256 private _eligibleBurners = 0;
 
     function mint(uint256 quantity) external payable {
         uint256 totalPrice = mintPrice(quantity);
 
-        require(msg.value >= totalPrice, "you can't afford it dude...");
+        require(msg.value >= totalPrice,
+            "you can't afford it");
 
-        require(
-            _numberMinted(msg.sender) + quantity <= maxMintPerWallet(),
-            "wooh you can't mint that many!"
-        );
+        require(mintsLeft() >= quantity,
+            "you can't mint that many");
+
+        require(_numberMinted(msg.sender) + quantity <= maxMintPerWallet(),
+            "you can't mint that many");
 
         _mint(msg.sender, quantity);
 
         _refundExtra(totalPrice);
-    }
 
-    function _refundExtra(uint256 price) internal {
-        if (msg.value > price) {
-            payable(msg.sender).transfer(msg.value - price);
-        }
+        if (_numberMinted(msg.sender) == maxMintPerWallet()) _eligibleBurners++;
     }
 
     function burnKitty(uint256 kittyId) external {
-        require(
-            address(this).balance > _mintPrice,
-            "sorry, kitty hell is closed for now"
-        );
+        require(address(this).balance > _mintPrice,
+            "kitty hell is closed for now");
 
-        require(
-            _numberMinted(msg.sender) == _maxMintPerWallet,
-            "you need to save all the kitties you can first"
-        );
+        require(_numberMinted(msg.sender) == maxMintPerWallet(),
+            "you need to save all the kitties you can first");
 
-        require(
-            _numberBurned(msg.sender) == 0,
-            "you've already sent 1 kitty to kitty hell, that's enough dude..."
-        );
+        require(_numberBurned(msg.sender) == 0,
+            "you've already sent a kitty to kitty hell");
 
         _burn(kittyId, true);
 
-        payable(msg.sender).transfer(_mintPrice);
+        if (address(this).balance > _mintPrice)
+            payable(msg.sender).transfer(_mintPrice);
 
-    }
-
-    function freeMintsLeft() public view returns (uint256) {
-        return
-            _numberMinted(msg.sender) >= _maxFreeMintPerWallet
-                ? 0
-                : _maxFreeMintPerWallet - _numberMinted(msg.sender);
+        _eligibleBurners--;
     }
 
     function mintPrice(uint256 quantity)
@@ -72,9 +61,13 @@ contract BasedGutterCats is ERC721A, Ownable {
         override
         returns (uint256)
     {
-        if (freeMintsLeft() >= quantity) return 0;
+        if (_freeMintsLeft() >= quantity) return 0;
 
-        return (quantity - freeMintsLeft()) * _mintPrice;
+        return (quantity - _freeMintsLeft()) * _mintPrice;
+    }
+
+    function mintsLeft() public view returns (uint256) {
+        return _maxMintPerWallet - _numberMinted(msg.sender);
     }
 
     function maxMintPerWallet() public view virtual override returns (uint256) {
@@ -91,6 +84,11 @@ contract BasedGutterCats is ERC721A, Ownable {
         return 999;
     }
 
+    function _freeMintsLeft() internal view returns (uint256) {
+        return _numberMinted(msg.sender) >= _maxFreeMintPerWallet ? 0
+                : _maxFreeMintPerWallet - _numberMinted(msg.sender);
+    }
+
     function _baseURI() internal view virtual override returns (string memory) {
         return _savedBaseURI;
     }
@@ -99,20 +97,33 @@ contract BasedGutterCats is ERC721A, Ownable {
         _savedBaseURI = baseURI;
     }
 
-    function setMintCount(uint256 newCount) external onlyOwner {
+    /*function setMintCount(uint256 newCount) external onlyOwner {
         _maxMintPerWallet = newCount;
-    }
+    }*/
 
-    function setFreeMintCount(uint256 newCount) external onlyOwner {
+    /*function setFreeMintCount(uint256 newCount) external onlyOwner {
         _maxFreeMintPerWallet = newCount;
-    }
+    }*/
 
-    function setMintPrice(uint256 newPrice) external onlyOwner {
+    /*function setMintPrice(uint256 newPrice) external onlyOwner {
         _mintPrice = newPrice;
-    }
+    }*/
 
     function withdrawMoney() external onlyOwner {
-        (bool success, ) = msg.sender.call{value: address(this).balance}("");
+        require(address(this).balance > 0,
+         "nothing left to withdraw");
+
+        uint256 withdrawableAmount = address(this).balance - (_eligibleBurners * _mintPrice);
+        require(withdrawableAmount > 0,
+            "this money belongs to potential hell kitty enthusiasts who are yet to discover its magic");
+
+        (bool success, ) = msg.sender.call{value: withdrawableAmount}("");
         require(success, "Transfer failed.");
+    }
+
+    function _refundExtra(uint256 price) internal {
+        if (msg.value > price) {
+            payable(msg.sender).transfer(msg.value - price);
+        }
     }
 }
