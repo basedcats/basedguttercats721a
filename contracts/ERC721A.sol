@@ -1048,9 +1048,9 @@ contract ERC721A is IERC721A {
     /**
      * @dev Equivalent to `_burn(tokenId, false)`.
      */
-    function _burn(uint256 tokenId) internal virtual {
-        _burn(tokenId, false);
-    }
+ //function _burn(uint256 tokenId) internal virtual {
+    //    _burn(tokenId, false);
+    //}
 
     /**
      * @dev Destroys `tokenId`.

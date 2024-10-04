@@ -310,7 +310,20 @@
 			},
 			{
 				"inputs": [],
-				"name": "freeMintsLeft",
+				"name": "canBurn",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "collectionSize",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -319,6 +332,19 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "quantity",
+						"type": "uint256"
+					}
+				],
+				"name": "devMint",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -399,6 +425,19 @@
 					}
 				],
 				"name": "mintPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "mintsLeft",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -534,50 +573,11 @@
 				"inputs": [
 					{
 						"internalType": "string",
-						"name": "baseURI",
+						"name": "newURI",
 						"type": "string"
 					}
 				],
 				"name": "setBaseURI",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "newCount",
-						"type": "uint256"
-					}
-				],
-				"name": "setFreeMintCount",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "newCount",
-						"type": "uint256"
-					}
-				],
-				"name": "setMintCount",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "newPrice",
-						"type": "uint256"
-					}
-				],
-				"name": "setMintPrice",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -909,19 +909,19 @@
 			]
 		},
 		"contracts/BasedGutterCats.sol": {
-			"keccak256": "0x986cd2f761aa72b1a49809d527c7ea6921306cd49cee08b79d0071a08fabe6f1",
+			"keccak256": "0xa08619044e6e2ccd8cd28da502328ea1f8d6704f4ac994d6f839342f261a00eb",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://878297387025d8ba36981a24ac49918d8db1c3b1538de6ea3b7a486482901e9e",
-				"dweb:/ipfs/QmRsgnLE66Yj4D71WMyYY5cmcfhNnpUjw3ejK7zJ1CqHuL"
+				"bzz-raw://01b7ec9ae51147f726f370392be6ebf578ea3890543e5049264ff3e2e6ca6858",
+				"dweb:/ipfs/QmU3ZuAmtTwAAwHQsDNmheV5zY8VEsBn2ZQ1wQvWLQZxms"
 			]
 		},
 		"contracts/ERC721A.sol": {
-			"keccak256": "0xe4fbb8d3a943e6b3d74b5a5dbd11a5c3a802be57f15be39567ddfb260db55570",
+			"keccak256": "0x16bf1c7b01678cc0c51f7f19dea702bb4cf599455825ce958aa555b0ce19eb50",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7c37c20a14c21b84381f1525d02b693a4914a34841c71b38ce6370c77ffe8639",
-				"dweb:/ipfs/QmfMJ2TYFT4CcAQJuC4qK5wTt48BoaTY4XCZFnfyfbu5Ff"
+				"bzz-raw://1f4071ac3974e9498c846652c638ab814ce2eebaf59124e1eac68fd49ca45005",
+				"dweb:/ipfs/QmWkMUvqgJ7YcGtPF7VJNVCeamZHzeojyLFnDPYvTs3UFt"
 			]
 		},
 		"contracts/IERC721A.sol": {
