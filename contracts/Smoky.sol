@@ -10,7 +10,7 @@ contract Smoky is ERC721A, Ownable {
         Ownable(initialOwner)
     {}
 
-    uint256 private constant _collectionSize = 999;
+    uint256 private constant _collectionSize = 1111;
     uint256 private constant _mintPrice = 200000000000000000;
 
     uint256 private constant _maxMintPerWallet = 5;

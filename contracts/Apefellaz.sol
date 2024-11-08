@@ -4,27 +4,31 @@ pragma solidity ^0.8.20;
 import "./ERC721A.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract BasedToadz is ERC721A, Ownable {
+contract ApedGutterCats is ERC721A, Ownable {
     constructor(address initialOwner)
-        ERC721A("BasedToadz", "BT")
+        ERC721A("ApedGutterCats", "AGC")
         Ownable(initialOwner)
     {}
 
     uint256 private constant _collectionSize = 999;
-    uint256 private constant _mintPrice = 100000000000000;
-    uint256 private constant _freePercentage = 80;
-    uint256 private constant _paidPercentage = 20;
+    uint256 private constant _mintPrice = 200000000000000000; //0.1 APE
 
-    uint256 private constant _maxMintPerWallet = 5;
-    uint256 private constant _maxFreeMintPerWallet = 1;
-    uint256 private constant _maxDevMint = 50;
+    uint256 private maxDevMint = 69;
+    uint256 private maxFreeMint = 1;
+    uint256 private maxMintCounts[] = {200, 420, 690,
+                                     400, 443}
+
+    uint256 private mintPrices[] = [0, 420000000000000000, 690000000000000000,
+                                     990000000000000000, 1234000000000000000];
+
 
     string private _activeBaseURI = "";
-    uint256 private _freeMintedTokens = 0;
-    uint256 private _paidMintedTokens = 0;
-
+    uint256 private _eligibleBurners = 0;
+    uint256 private _currentStage = 0; //max is "mitPrices" & "maxMintCounts" length
 
     /////External Public Functions/////
+
+
 
     function mint(uint256 quantity) external payable {
         require(quantity > 0 && quantity <= mintsLeft() ,
@@ -51,14 +55,22 @@ contract BasedToadz is ERC721A, Ownable {
         if (_numberMinted(msg.sender) == maxMintPerWallet()) _eligibleBurners++;
     }
 
-    function freeMint() external {
-        if(_numberMinted(msg.sender)) //todo fix it
+    function burnKitty(uint256 kittyId) external {
+
+        require(keccak256(abi.encodePacked(canBurn())) == "Allowed",
+         canBurn());
+
+        _burn(kittyId, true);
+
+        payable(msg.sender).transfer(_mintPrice);
+
+        _eligibleBurners--;
     }
 
 
     /////External OnlyOwner Functions/////
 
-    function devMint(uint256 quantity) external onlyOwner {
+    function devMint(uint256 quantity) external onlyOwner { //todo test it
         require(_numberMinted(msg.sender) < _maxDevMint,
          "no dev mint left");
 
@@ -72,7 +84,14 @@ contract BasedToadz is ERC721A, Ownable {
     function withdrawMoney() external onlyOwner {
         require(address(this).balance > 0, "nothing left to withdraw");
 
-        (bool success, ) = msg.sender.call{value: msg.value}("");
+        uint256 withdrawableAmount = address(this).balance -
+            (_eligibleBurners * _mintPrice);
+        require(
+            withdrawableAmount > 0,
+            "this money belongs to potential hell kitty enthusiasts who are yet to discover its magic"
+        );
+
+        (bool success, ) = msg.sender.call{value: withdrawableAmount}("");
         require(success, "Transfer failed.");
     }
 
