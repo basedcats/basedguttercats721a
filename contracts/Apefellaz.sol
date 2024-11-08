@@ -15,10 +15,9 @@ contract ApedGutterCats is ERC721A, Ownable {
 
     uint256 private maxDevMint = 69;
     uint256 private maxFreeMint = 1;
-    uint256 private maxMintCounts[] = {200, 420, 690,
-                                     400, 443}
-
-    uint256 private mintPrices[] = [0, 420000000000000000, 690000000000000000,
+    uint []private maxMintCounts = [200, 420, 690,
+                                     400, 443];
+    uint256[] private mintPrices = [0, 420000000000000000, 690000000000000000,
                                      990000000000000000, 1234000000000000000];
 
 
@@ -29,7 +28,7 @@ contract ApedGutterCats is ERC721A, Ownable {
     /////External Public Functions/////
 
 
-
+ 
     function mint(uint256 quantity) external payable {
         require(quantity > 0 && quantity <= mintsLeft() ,
         "you can't mint that many");
@@ -71,7 +70,7 @@ contract ApedGutterCats is ERC721A, Ownable {
     /////External OnlyOwner Functions/////
 
     function devMint(uint256 quantity) external onlyOwner { //todo test it
-        require(_numberMinted(msg.sender) < _maxDevMint,
+        require(_numberMinted(msg.sender) < maxDevMint,
          "no dev mint left");
 
         _mint(msg.sender, quantity);
@@ -102,7 +101,7 @@ contract ApedGutterCats is ERC721A, Ownable {
         if (msg.value > price) {
             payable(msg.sender).transfer(msg.value - price);
         }
-    }
+    }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 
 
     /////Properties/////
@@ -110,19 +109,19 @@ contract ApedGutterCats is ERC721A, Ownable {
     function mintPrice(uint256 quantity) public view override returns (uint256)
     {
         if (_freeMintsLeft() >= quantity) return 0;
-        if (_numberMinted(msg.sender) + quantity > _maxMintPerWallet)
+        if (_numberMinted(msg.sender) + quantity > maxMintPerWallet())
             return 6969696969696969;
-        return (quantity - _freeMintsLeft()) * _mintPrice;
+        return (quantity - _freeMintsLeft()) * (mintPrices[_currentStage]);
     }
 
     function mintsLeft() public view returns (uint256) {
-        return _maxMintPerWallet - _numberMinted(msg.sender);
+        return maxMintPerWallet() - _numberMinted(msg.sender);
     }
 
     function maxMintPerWallet() public view virtual override returns (uint256) {
-        return _maxMintPerWallet;
+        return maxMintCounts[_currentStage];
     }
-
+    
     function collectionSize() public view virtual returns (uint256) {
         return _collectionSize;
     }
@@ -146,14 +145,15 @@ contract ApedGutterCats is ERC721A, Ownable {
         return collectionSize();
     }
 
-    function _freeMintsLeft() internal view returns (uint256) {
+    function _freeMintsLeft() internal view returns (uint256) { //the first NFT minted by a wallet is alweays free so we just use numberMinted here
         return
-            _numberMinted(msg.sender) >= _maxFreeMintPerWallet
+            _numberMinted(msg.sender) >= maxFreeMint
                 ? 0
-                : _maxFreeMintPerWallet - _numberMinted(msg.sender);
+                : maxFreeMint - _numberMinted(msg.sender);
     }
 
     function _baseURI() internal view override returns (string memory) {
         return _activeBaseURI;
     }
+    
 }
