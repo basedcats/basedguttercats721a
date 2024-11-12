@@ -878,7 +878,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/ApedGutterCats.sol": "ApedGutterCats"
+			"contracts/Apefellaz.sol": "ApedGutterCats"
 		},
 		"evmVersion": "cancun",
 		"libraries": {},
@@ -908,12 +908,12 @@
 				"dweb:/ipfs/Qmax9WHBnVsZP46ZxEMNRQpLQnrdE4dK8LehML1Py8FowF"
 			]
 		},
-		"contracts/ApedGutterCats.sol": {
-			"keccak256": "0x16980603b2ad04e12021cc6c34b70127145f7c5dc3ce6d025461423bd6355be2",
+		"contracts/Apefellaz.sol": {
+			"keccak256": "0xcfde1216dabb97dbda0785fc07b60b4b0cac5cf295c0a88e144bb112b2075c12",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://542e291215f1096a9fb0b754f78ec93e37e24b0cc6ff0e85941b4a40a308091f",
-				"dweb:/ipfs/QmRhDcVRXNkohXfBEV88xFEiv7qRGeY5oiHGN4UN3MwCA7"
+				"bzz-raw://f30b19571b0a46a0f233cc4b62975295b2b679b15b517876a24e60a05f3067e7",
+				"dweb:/ipfs/QmT3xo87FFfQKkD7k25M7i5wJ8VhS5hE14wQkPEQ8466id"
 			]
 		},
 		"contracts/ERC721A.sol": {

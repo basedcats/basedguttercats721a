@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import "./ERC721A.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-
+CVVVVCCVVCVVVVV
 contract BasedGutterCats is ERC721A, Ownable {
     constructor(address initialOwner)
         ERC721A("BasedGutterCats", "BGC")
@@ -46,6 +46,10 @@ contract BasedGutterCats is ERC721A, Ownable {
         _refundExtra(totalPrice);
 
         if (_numberMinted(msg.sender) == maxMintPerWallet()) _eligibleBurners++;
+
+        _currentIndex
+
+
     }
 
     function burnKitty(uint256 kittyId) external {

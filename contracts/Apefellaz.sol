@@ -4,25 +4,26 @@ pragma solidity ^0.8.20;
 import "./ERC721A.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract ApedGutterCats is ERC721A, Ownable {
+contract ApeFellaz is ERC721A, Ownable {
     constructor(address initialOwner)
-        ERC721A("ApedGutterCats", "AGC")
+        ERC721A("ApeFellaz", "AF")
         Ownable(initialOwner)
     {}
 
-    uint256 private constant _collectionSize = 999;
+    uint256 private constant _collectionSize = 2222;
     uint256 private constant _mintPrice = 200000000000000000; //0.1 APE
 
     uint256 private maxDevMint = 69;
     uint256 private maxFreeMint = 1;
-    uint []private maxMintCounts = [200, 420, 690,
-                                     400, 443];
+    uint []private maxMintCounts = [269, 689, 1379,
+                                     1779, 2222];
     uint256[] private mintPrices = [0, 420000000000000000, 690000000000000000,
                                      990000000000000000, 1234000000000000000];
 
 
     string private _activeBaseURI = "";
     uint256 private _eligibleBurners = 0;
+    uint256 private _mintedTokens = 0;
     uint256 private _currentStage = 0; //max is "mitPrices" & "maxMintCounts" length
 
     /////External Public Functions/////
@@ -52,7 +53,17 @@ contract ApedGutterCats is ERC721A, Ownable {
         _refundExtra(totalPrice);
 
         if (_numberMinted(msg.sender) == maxMintPerWallet()) _eligibleBurners++;
+        _mintedTokens = _mintedTokens + quantity;
+
+        _currentStage = 0;
+
+        for(uint i = 1; i < 5; i++){
+            if(_mintedTokens > maxMintCounts[i - 1] && _mintedTokens <= maxMintCounts[i])
+                _currentStage = i;
+        }
     }
+
+
 
     function burnKitty(uint256 kittyId) external {
 
@@ -119,7 +130,8 @@ contract ApedGutterCats is ERC721A, Ownable {
     }
 
     function maxMintPerWallet() public view virtual override returns (uint256) {
-        return maxMintCounts[_currentStage];
+        return 180;
+        //return maxMintCounts[_currentStage];
     }
     
     function collectionSize() public view virtual returns (uint256) {
