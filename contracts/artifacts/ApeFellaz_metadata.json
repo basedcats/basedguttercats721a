@@ -909,11 +909,11 @@
 			]
 		},
 		"contracts/Apefellaz.sol": {
-			"keccak256": "0xab98862d4e1e966785c8c6623c9ab3308a4c8f303e0ca79d20901d144b413deb",
+			"keccak256": "0x8d5f7ae7fbc5f20442aa427a728e838e2ff04e76cb4f0d2431dad75e9ca224ca",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6eaf8f63a53c0846daaabb0afba1050c7aba2cec109c85688918696d28285c4e",
-				"dweb:/ipfs/QmQhosYKHJSTCLipnpgBj11Cgy47eQzZX6ao7btRmTTk9i"
+				"bzz-raw://0b94418b4ecf2111e4b2ea3b619defc8a70c3af2950f5615a3c5ae476b46058b",
+				"dweb:/ipfs/QmbtfVRSURMzLGHj5vzYjFLJdVNb5LDx8vtniF7cWnQeT7"
 			]
 		},
 		"contracts/ERC721A.sol": {

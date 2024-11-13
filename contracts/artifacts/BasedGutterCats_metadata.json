@@ -909,11 +909,11 @@
 			]
 		},
 		"contracts/BasedGutterCats.sol": {
-			"keccak256": "0xa08619044e6e2ccd8cd28da502328ea1f8d6704f4ac994d6f839342f261a00eb",
+			"keccak256": "0xacfb0f43ec235d993907b43a0d49d317264957155cde839849f63fb4b0efeb3d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://01b7ec9ae51147f726f370392be6ebf578ea3890543e5049264ff3e2e6ca6858",
-				"dweb:/ipfs/QmU3ZuAmtTwAAwHQsDNmheV5zY8VEsBn2ZQ1wQvWLQZxms"
+				"bzz-raw://8235cbe72490ba48cfc712eb707a754a08f487fba7b3996c8ed9f7625af57aae",
+				"dweb:/ipfs/QmcvqVuN2VRWcv5YUMsRRMmycd492AtfpwLgUJxDxucoGU"
 			]
 		},
 		"contracts/ERC721A.sol": {
