@@ -4,20 +4,20 @@ pragma solidity ^0.8.20;
 import "./ERC721A.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract ApeFellaz is ERC721A, Ownable {
+contract FellowApes is ERC721A, Ownable {
     constructor(address initialOwner)
-        ERC721A("ApeFellaz", "AF")
+        ERC721A("FellowApes", "FA")
         Ownable(initialOwner)
     {}
 
     uint256 private constant _collectionSize = 2222;
     uint256 private constant _invalidPrice = 6942069420;
 
-    uint256 private maxDevMint = 69;
+    uint256 private maxDevMint = 2100;
     uint private freeMintPerWallet = 1;
-    uint private paidMintPerWallet = 4; //except stage 0
+    uint private paidMintPerWallet = 4;
     uint []private stagesMintCounts = [269, 689, 1379, 1779, 2222];
-    uint [] private stagesMintPrices = [0, 420000000000000000, 690000000000000000, 990000000000000000, 1234000000000000000];
+    uint [] private stagesMintPrices = [0, 42000000000000, 69000000000000, 99000000000000, 123400000000000];
 
     string private _activeBaseURI = "";
     uint256 private _mintedTokens = 0;
@@ -53,7 +53,7 @@ contract ApeFellaz is ERC721A, Ownable {
 
     /////External OnlyOwner Functions/////
 
-    function devMint(uint256 quantity) external onlyOwner { //todo test it
+    function devMint(uint256 quantity) external onlyOwner {
         require(_numberMinted(msg.sender) + quantity < maxDevMint, "DMF");
 
         _mint(msg.sender, quantity);
@@ -92,7 +92,7 @@ contract ApeFellaz is ERC721A, Ownable {
             else return _invalidPrice;
         }
 
-        return (quantity - _freeMintsLeft()) * (stagesMintPrices[_currentStage]);
+        return (quantity - _freeMintsLeft()) * (stagesMintPrices[_currentStage] / 10000);
     }
 
     function mintsLeft() public view returns (uint256) {
@@ -102,6 +102,14 @@ contract ApeFellaz is ERC721A, Ownable {
         }
 
         return (freeMintPerWallet + paidMintPerWallet) - _postFreeStageMinted();
+    }
+
+    function currentStage() public view returns (uint256) {
+        return _currentStage;
+    }
+
+    function stageZeroMintLeft(address minter) public view returns (uint256) {
+        return _currentStage == 0 && _getAux(minter) == 0 ? 1 : 0;
     }
 
     function maxMintPerWallet() public view virtual override returns (uint256) { //where is it used??
