@@ -17,7 +17,7 @@ contract FellowApes is ERC721A, Ownable {
     uint private freeMintPerWallet = 1;
     uint private paidMintPerWallet = 4;
     uint []private stagesMintCounts = [269, 689, 1379, 1779, 2222];
-    uint [] private stagesMintPrices = [0, 42000000000000, 69000000000000, 99000000000000, 123400000000000];
+    uint [] private stagesMintPrices = [0, 420000000000000000, 690000000000000000, 990000000000000000, 1234000000000000000];
 
     string private _activeBaseURI = "";
     uint256 private _mintedTokens = 0;
@@ -29,14 +29,13 @@ contract FellowApes is ERC721A, Ownable {
     function mint(uint256 quantity) external payable {
         require(quantity != 0 && quantity <= mintsLeft() , "Q");
 
-        require(quantity == 1 || _mintedTokens + quantity < stagesMintCounts[_currentStage], "SQ");
+        require(quantity == 1 || _mintedTokens + quantity <= stagesMintCounts[_currentStage], "SQ");
 
         uint256 totalPrice = mintPrice(quantity);
 
         require(msg.value >= totalPrice, "P");
 
         _mint(msg.sender, quantity);
-        _refundExtra(totalPrice);
 
         _mintedTokens = _mintedTokens + quantity;
 
@@ -49,6 +48,8 @@ contract FellowApes is ERC721A, Ownable {
             if(_mintedTokens > stagesMintCounts[i - 1] && _mintedTokens <= stagesMintCounts[i])
                 _currentStage = i;
         }
+
+        _refundExtra(totalPrice);
     }
 
     /////External OnlyOwner Functions/////
