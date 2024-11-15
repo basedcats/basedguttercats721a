@@ -923,11 +923,11 @@
 			]
 		},
 		"contracts/FellowApes.sol": {
-			"keccak256": "0x385a446fbd913ae5fc144ed8a00ca3383e63c99fe44c24194afb0db1f46f3cf4",
+			"keccak256": "0x7bba67df6cdb5e45f5b1cd06705664ce15482d697012ae43c12581d6a4091da9",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://bd29d9730e2cb729a01fdc03b6972b51c13b18559cebab53165cdaa1e9a2f82a",
-				"dweb:/ipfs/QmSX5JekC5MeFWKgXztE3K3EjZ77jkN23WyyN3kUuU86n5"
+				"bzz-raw://8234c35e778f9197212333668b07f2cb3d89a70ce7fde9d20ed34263fa430be9",
+				"dweb:/ipfs/QmYD9BKKn4wC3sZXt7ZHHUKjjvxAM1o2ST4mQHrFU8G7ko"
 			]
 		},
 		"contracts/IERC721A.sol": {

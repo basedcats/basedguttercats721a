@@ -93,10 +93,18 @@ contract FellowApes is ERC721A, Ownable {
             else return _invalidPrice;
         }
 
-        return (quantity - _freeMintsLeft()) * (stagesMintPrices[_currentStage] / 10000);
+        //return (quantity - _freeMintsLeft()) * (stagesMintPrices[_currentStage]);
 
-        uint price = (quantity - _freeMintsLeft()) * (stagesMintPrices[_currentStage] / 10000);
-        //if(_getCurrentStage(_mintedTokens + quantity) != _currentStage)
+        uint price = (quantity - _freeMintsLeft()) * (stagesMintPrices[_currentStage]);
+
+        if(_getCurrentStage(_mintedTokens + quantity) != _currentStage){ //should never be true for last stage
+            uint nextStageMints = (_mintedTokens + quantity) - stagesMintCounts[_currentStage];
+            uint thisStageMints = quantity - nextStageMints;
+            price = (thisStageMints * stagesMintPrices[_currentStage]) + (nextStageMints * stagesMintPrices[_currentStage + 1]);
+            price -= _freeMintsLeft() != 0 ? stagesMintPrices[_currentStage + (thisStageMints != 0 ? 0 : 1)] : 0;
+        }
+
+        return price;
            // price (_mintedTokens + quantity) - stagesMintCounts[_currentStage]
         
     }
