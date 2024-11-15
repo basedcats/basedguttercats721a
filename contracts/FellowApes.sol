@@ -94,6 +94,11 @@ contract FellowApes is ERC721A, Ownable {
         }
 
         return (quantity - _freeMintsLeft()) * (stagesMintPrices[_currentStage] / 10000);
+
+        uint price = (quantity - _freeMintsLeft()) * (stagesMintPrices[_currentStage] / 10000);
+        //if(_getCurrentStage(_mintedTokens + quantity) != _currentStage)
+           // price (_mintedTokens + quantity) - stagesMintCounts[_currentStage]
+        
     }
 
     function mintsLeft() public view returns (uint256) {
@@ -115,6 +120,17 @@ contract FellowApes is ERC721A, Ownable {
 
     function maxMintPerWallet() public view virtual override returns (uint256) { //where is it used??
         return paidMintPerWallet; //1 free mint
+    }
+
+    function _getCurrentStage(uint count) internal view returns (uint256) {
+        uint stage = 0;
+        for(uint i = 1; i < 5; i++){
+            if(count > (i != 0 ? stagesMintCounts[i - 1] : 0) && count <= stagesMintCounts[i]){
+                stage = i;
+                break;
+            }
+        }
+        return stage;
     }
 
     function _freeMintsLeft() internal view returns (uint256) { //doesn't count the stage 0 free mint available to all
